@@ -1,0 +1,5 @@
+.landingPage{
+    height: 100vh;
+    background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end)); 
+    position: relative; 
+}   
