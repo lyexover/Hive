@@ -65,14 +65,14 @@ export default function Header() {
         </a>
 
         <div className={styles.mobileActions}>
-          <Link className={styles.signin} href="/" onClick={() => setMenuOpen(false)}>Join Now</Link>
-          <Link className={styles.login} href="/" onClick={() => setMenuOpen(false)}>Login</Link>
+          <Link className={styles.signin} href="/auth/signup" onClick={() => setMenuOpen(false)}>Join Now</Link>
+          <Link className={styles.login} href="/auth/login" onClick={() => setMenuOpen(false)}>Login</Link>
         </div>
       </div>
 
       <div className={styles.actions}>
-        <Link className={styles.signin} href="/">Join Now</Link>
-        <Link className={styles.login} href="/">Login</Link>
+        <Link className={styles.signin} href="/auth/signup">Join Now</Link>
+        <Link className={styles.login} href="/auth/login">Login</Link>
       </div>
     </header>
   );
