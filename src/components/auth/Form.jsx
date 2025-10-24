@@ -1,14 +1,24 @@
 'use client'
 import { useState } from "react"
 import styles from '@/css-modules/auth.module.css'
+import { useActionState } from "react";
+import { login, signUp } from "@/app/actions/authActions";
 
-export default function Form({isLoginPage}){
+export default function Form({ isLoginPage }) {
+    const [isLogin, setIsLogin] = useState(isLoginPage);
+    const initialState = { errorMessage: '' };
+    
+    // Use separate action states for login and signup
+    const [loginState, loginAction, loginPending] = useActionState(login, initialState);
+    const [signUpState, signUpAction, signUpPending] = useActionState(signUp, initialState);
 
-    const [isLogin, setIsLogin] = useState(isLoginPage ? true : false);
+    // Determine which state and action to use based on current mode
+    const currentState = isLogin ? loginState : signUpState;
+    const currentAction = isLogin ? loginAction : signUpAction;
+    const pending = isLogin ? loginPending : signUpPending;
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Logique d'action à ajouter
+    const handleToggle = () => {
+        setIsLogin(!isLogin);
     };
 
     return (
@@ -23,7 +33,7 @@ export default function Form({isLoginPage}){
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className={styles.form}>
+                <form action={currentAction} className={styles.form}>
                     {!isLogin && (
                         <>
                             <div className={styles.inputGroup}>
@@ -69,12 +79,21 @@ export default function Form({isLoginPage}){
                             name="password"
                             placeholder="••••••••"
                             required
+                            
                         />
                     </div>
 
-                    <button type="submit" className={styles.submitBtn}>
-                        {isLogin ? 'Se connecter' : "S'inscrire"}
+                    <button 
+                        type="submit" 
+                        className={styles.submitBtn}
+                        disabled={pending}
+                    >
+                        {pending ? 'Chargement...' : isLogin ? 'Se connecter' : "S'inscrire"}
                     </button>
+
+                    <div className={styles.errorMessage}>
+                        {currentState.errorMessage && <p>{currentState.errorMessage}</p>}
+                    </div>
                 </form>
 
                 <div className={styles.formFooter}>
@@ -85,7 +104,7 @@ export default function Form({isLoginPage}){
                     </span>
                     <button 
                         type="button"
-                        onClick={() => setIsLogin(!isLogin)}
+                        onClick={handleToggle}
                         className={styles.toggleBtn}
                     >
                         {isLogin ? "S'inscrire" : "Se connecter"}
@@ -93,5 +112,5 @@ export default function Form({isLoginPage}){
                 </div>
             </div>
         </div>
-    )
+    );
 }
