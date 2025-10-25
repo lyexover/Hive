@@ -6,13 +6,12 @@ import { IoLogOut } from "react-icons/io5";
 import Link from "next/link";
 import RoomsDropDown from "./RoomsDropDown";
 import { auth } from "../../../auth";
-
+import styles from '@/css-modules/main/navbar.module.css'
 
 
 
 
 async function fetchRooms(user){
-
 
     try {
 
@@ -31,8 +30,7 @@ async function fetchRooms(user){
         console.log(err.message);
         return [];
         
-}
-}
+}}
 
 
 
@@ -45,12 +43,12 @@ export default async function Navbar(){
     console.log(user)
 
     return (
-        <nav>
-            <MdHive size={35} />
+        <nav className={styles.navbar}>
+            <MdHive size={45} className={styles.logo} />
             <ul>
                 <li>
                     <Link href="dashboard">
-                        <TbLayoutDashboardFilled size={20} />
+                        <TbLayoutDashboardFilled size={30} />
                         <span>Dashboard</span>
                     </Link>
                 </li>
@@ -59,17 +57,17 @@ export default async function Navbar(){
 
                 <li>
                     <Link href="users">
-                        <IoIosAddCircle size={20} />
+                        <IoIosAddCircle size={30} />
                         <span>Users</span>   
                     </Link>
                 </li>
                 
             </ul>
 
-            <footer>
+            <footer className={styles.footer}>
 
                 <span>{user.first_name} {user.last_name}</span>
-                <div>
+                <div className={styles.footerActions}>
                     <Link href="settings">
                         <IoSettingsSharp size={20} />
                         Settings

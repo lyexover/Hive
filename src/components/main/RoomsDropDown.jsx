@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { FaChevronUp } from "react-icons/fa6";
+import styles from '@/css-modules/main/navbar.module.css'
 
 
 export default function RoomsDropDown({rooms}) {
@@ -17,10 +18,10 @@ export default function RoomsDropDown({rooms}) {
         <li>
             <button onClick={()=> setIsOpen(!isOpen)}>
                 <span>
-                    <IoPeople size={20} />
+                    <IoPeople size={30} />
                     <span>Rooms</span>
                     {
-                        isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />
+                        isOpen ? <FaChevronUp size={12} className={styles.chevron} /> : <FaChevronDown className={styles.chevron} size={12} />
                     }
                 </span>
             </button>

@@ -1,0 +1,89 @@
+.navbar{
+    width: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo{
+    color: var(--identity-blue);
+}
+
+.navbar ul {
+    list-style: none;
+    position: relative;
+    bottom: 8rem;
+    padding-left: 0.5rem;
+}
+
+.navbar ul li{
+    margin: 1.8rem 0;
+}
+
+.navbar ul li a{
+text-decoration: none;
+display: flex;
+align-items: center;
+gap: 0.4rem;
+}
+
+.navbar ul li button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    width: 100%;
+    position: relative;
+}
+
+.navbar button>span{
+     display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+}
+
+.navbar .chevron{
+    position:absolute;
+    right: 10px;
+}
+
+.navbar button, .navbar a{
+    color: var(--dark-gray);
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+
+.footerActions{
+    background-color: white; 
+    padding: 0.8rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.footerActions a, .footerActions button{
+    text-decoration: none;
+    color: var(--dark-gray);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-top: 0.5rem;
+    padding-left: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.footer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.footer span{
+    font-weight: 550;
+    color: var(--identity-blue);
+    padding-left: 0.2rem;
+}
