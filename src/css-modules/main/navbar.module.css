@@ -1,30 +1,59 @@
 .navbar{
     width: 270px;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto; /* Rend la navbar scrollable */
+    overflow-x: hidden;
+}
+
+/* Style de la scrollbar (optionnel) */
+.navbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.navbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.navbar::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
 }
 
 .logo{
     color: var(--identity-blue);
+    padding-left: 0.5rem;
+    flex-shrink: 0; /* Empêche le logo de se réduire */
 }
 
 .navbar ul {
     list-style: none;
-    position: relative;
-    bottom: 8rem;
     padding-left: 0.5rem;
+    margin: 0;
+    flex: 1; /* Prend l'espace disponible */
+    box-sizing: border-box;
+}
+
+.navbar>ul{
+   padding-top: 4rem;
 }
 
 .navbar ul li{
-    margin: 1.8rem 0;
+    margin: 2.2rem 0;
+    position: relative; /* Important pour le dropdown */
 }
 
 .navbar ul li a{
-text-decoration: none;
-display: flex;
-align-items: center;
-gap: 0.4rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
 }
 
 .navbar ul li button{
@@ -33,27 +62,59 @@ gap: 0.4rem;
     cursor: pointer;
     padding: 0;
     width: 100%;
-    position: relative;
+    text-align: left;
 }
 
 .navbar button>span{
-     display: flex;
+    display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-weight: 500;
+    position: relative;
 }
 
 .navbar .chevron{
-    position:absolute;
+    position: absolute;
     right: 10px;
 }
 
-.navbar button, .navbar a{
+.navbar button span, .navbar a{
     color: var(--dark-gray);
     font-weight: 500;
     font-size: 1.1rem;
 }
 
+/* Dropdown styles */
+.dropdown {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.dropdown.open {
+    max-height: fit-content; 
+}
+
+.dropdown li {
+    margin: 0.5rem 0 0.5rem 2.5rem; /* Indentation pour les sous-items */
+    padding-left: 1.5rem;
+    font-weight: 550;
+}
+
+.dropdown li a {
+    font-size: 0.95rem;
+    padding: 0.3rem 0;
+}
+
+.footer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 0 0.5rem;
+    flex-shrink: 0; /* Empêche le footer de se réduire */
+}
 
 .footerActions{
     background-color: white; 
@@ -61,7 +122,7 @@ gap: 0.4rem;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .footerActions a, .footerActions button{
@@ -75,15 +136,19 @@ gap: 0.4rem;
     background-color: transparent;
     border: none;
     cursor: pointer;
-}
-.footer{
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
+    font-weight: 550;
+    font-size: 1.1rem;
 }
 
-.footer span{
+.active a{ 
+    color: var(--identity-blue);
+}
+
+.footer > span{
     font-weight: 550;
     color: var(--identity-blue);
-    padding-left: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-left: 0.4rem;
 }

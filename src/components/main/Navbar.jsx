@@ -1,74 +1,95 @@
+'use client'
+
 import { MdHive } from "react-icons/md";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
-import { IoIosAddCircle } from "react-icons/io";
-import { IoSettingsSharp } from "react-icons/io5";
-import { IoLogOut } from "react-icons/io5";
+import { IoAddCircle, IoSettingsSharp, IoLogOut } from "react-icons/io5";
+import { FaUser, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { BsPeople } from "react-icons/bs";
+
 import Link from "next/link";
-import RoomsDropDown from "./RoomsDropDown";
-import { auth } from "../../../auth";
-import styles from '@/css-modules/main/navbar.module.css'
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import styles from '@/css-modules/main/navbar.module.css';
+import { getRoomsByUserId } from "@/app/actions/GetRooms";
 
+export default function Navbar({ user }) {
+    const pathname = usePathname();
+    const [rooms, setRooms] = useState([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    useEffect(() => {
+        async function loadRooms() {
+            const loadedRooms = await getRoomsByUserId(user.id);
+            if (loadedRooms.success) {
+                setRooms(loadedRooms.data);
+            } else {
+                console.error('Failed to load rooms:', loadedRooms.error);
+            }
+        }
 
+        loadRooms();
+    }, [user]);
 
-async function fetchRooms(user){
-
-    try {
-
-        const res = await fetch(`http://localhost:3000/api/rooms/${user.id}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        const data = await res.json();
-        return data;
-    }
-
-    catch(err){
-        console.log(err.message);
-        return [];
-        
-}}
-
-
-
-
-
-export default async function Navbar(){
-
-    const {user} = await auth();
-    console.log('Navbar user:')
-    console.log(user)
+    const isActive = (path) => {
+        return pathname === path || pathname.startsWith(path + '/');
+    };
 
     return (
         <nav className={styles.navbar}>
             <MdHive size={45} className={styles.logo} />
+            
             <ul>
-                <li>
-                    <Link href="dashboard">
+                <li className={isActive('/dashboard') ? styles.active : ''}>
+                    <Link href="/dashboard">
                         <TbLayoutDashboardFilled size={30} />
                         <span>Dashboard</span>
                     </Link>
                 </li>
                 
-                <RoomsDropDown rooms={await fetchRooms(user)} />
+                {/* Rooms Dropdown */}
+                <li className={isActive('/rooms') ? styles.active : ''}>
+                    <button onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                        <span>
+                            <BsPeople size={30} />
+                            Rooms
+                            {isDropdownOpen ? 
+                                <FaChevronUp size={12} className={styles.chevron} /> : 
+                                <FaChevronDown size={12} className={styles.chevron} />
+                            }
+                        </span>
+                    </button>
 
-                <li>
-                    <Link href="users">
-                        <IoIosAddCircle size={30} />
+                    {/* Dropdown avec classe conditionnelle pour l'animation */}
+                    {rooms.length > 0 && (
+                        <ul className={`${styles.dropdown} ${isDropdownOpen ? styles.open : ''}`}>
+                            {rooms.map((room) => (
+                                <li 
+                                    key={room.id}
+                                    className={pathname === `/rooms/${room.id}` ? styles.active : ''}
+                                >
+                                    <Link href={`/rooms/${room.id}`}>
+                                        {room.name}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </li>
+
+                <li className={isActive('/users') ? styles.active : ''}>
+                    <Link href="/users">
+                        <IoAddCircle size={30} />
                         <span>Users</span>   
                     </Link>
                 </li>
-                
             </ul>
 
             <footer className={styles.footer}>
-
-                <span>{user.first_name} {user.last_name}</span>
+                <span>
+                    <FaUser /> {user.first_name} {user.last_name}
+                </span>
                 <div className={styles.footerActions}>
-                    <Link href="settings">
+                    <Link href="/settings">
                         <IoSettingsSharp size={20} />
                         Settings
                     </Link>
@@ -77,10 +98,7 @@ export default async function Navbar(){
                         Logout
                     </button>
                 </div>
-
-
             </footer>
         </nav>
-    )
-
+    );
 }

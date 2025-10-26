@@ -1,16 +1,16 @@
-import Navbar from "@/components/main/Navbar"
+import { auth } from "../../../auth";
+import Navbar from "@/components/main/Navbar";
 import styles from '@/css-modules/main/layout.module.css'
 
 
-export default function MainLayout({ children }) {
 
+export default async function Layout({ children }) {
+    const { user } = await auth();
 
     return (
-          <div className={styles.mainLayout}>
-            <Navbar className={styles.navbar}/>
-            <main className={styles.mainContent}>
-               {children}
-            </main>
-          </div>
-    )
+        <div className={styles.mainLayout}>
+            <Navbar user={user} />
+            <main>{children}</main>
+        </div>
+    );
 }
