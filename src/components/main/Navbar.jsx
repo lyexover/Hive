@@ -31,7 +31,7 @@ export default function Navbar({ user }) {
     }, [user]);
 
     const isActive = (path) => {
-        return pathname === path || pathname.startsWith(path + '/');
+        return pathname === path ; 
     };
 
     return (
@@ -76,8 +76,8 @@ export default function Navbar({ user }) {
                     )}
                 </li>
 
-                <li className={isActive('/users') ? styles.active : ''}>
-                    <Link href="/users">
+                <li className={isActive('/dashboard/users') ? styles.active : ''}>
+                    <Link href="/dashboard/users">
                         <IoAddCircle size={30} />
                         <span>Users</span>   
                     </Link>
