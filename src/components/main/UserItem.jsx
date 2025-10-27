@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaUser, FaCheck } from "react-icons/fa";
 import { FaCirclePlus } from "react-icons/fa6";
 import { SendRequest } from "@/app/actions/SendRequest";
+import styles from '@/css-modules/main/users.module.css'
 
 export default function UserItem({user, sender}) {
     const [isSuccess, setIsSuccess] = useState(false);
@@ -24,8 +25,12 @@ export default function UserItem({user, sender}) {
 
     return (
         <li key={user.id}>
-           <FaUser/> 
-           <p>{user.first_name} {user.last_name}</p>
+
+            <div className={styles.userInfo}>
+               <FaUser/> 
+               <p>{user.first_name} {user.last_name}</p>
+            </div>
+           
            <button 
                onClick={handleSendRequest}
                disabled={isSuccess || isLoading}

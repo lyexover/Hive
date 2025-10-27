@@ -1,6 +1,7 @@
 import postgres from 'postgres';
 import { auth } from '../../../auth';
 import UserItem from './UserItem';
+import styles from '@/css-modules/main/users.module.css'
 
 const sql = postgres(process.env.POSTGRES_URL, { ssl: 'require' });
 
@@ -56,7 +57,7 @@ async function handleSearch({query, user}){
 export default async function SearchList({query}){
 
      const {user} = await auth()
-     const users = await handleSearch({query, user});
+     const users = query ? await handleSearch({query, user}): [];
 
      console.log('query:', query);
 
@@ -64,7 +65,9 @@ export default async function SearchList({query}){
 
 
     return (
-      <div>
+      <div className={styles.searchList}>
+
+        <h4>Discover</h4>
 
         {users.length === 0 ? (
             <p>No users found.</p>

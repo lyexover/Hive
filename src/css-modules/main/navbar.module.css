@@ -1,10 +1,16 @@
+/* Mobile Navbar */
+.mobileNavbar {
+    display: none;
+}
+
+/* Desktop Navbar */
 .navbar{
     width: 270px;
     max-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-y: auto; /* Rend la navbar scrollable */
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
@@ -29,14 +35,14 @@
 .logo{
     color: var(--identity-blue);
     padding-left: 0.5rem;
-    flex-shrink: 0; /* Empêche le logo de se réduire */
+    flex-shrink: 0;
 }
 
 .navbar ul {
     list-style: none;
     padding-left: 0.5rem;
     margin: 0;
-    flex: 1; /* Prend l'espace disponible */
+    flex: 1;
     box-sizing: border-box;
 }
 
@@ -46,7 +52,7 @@
 
 .navbar ul li{
     margin: 2.2rem 0;
-    position: relative; /* Important pour le dropdown */
+    position: relative;
 }
 
 .navbar ul li a{
@@ -98,7 +104,7 @@
 }
 
 .dropdown li {
-    margin: 0.5rem 0 0.5rem 2.5rem; /* Indentation pour les sous-items */
+    margin: 0.5rem 0 0.5rem 2.5rem;
     padding-left: 1.5rem;
     font-weight: 550;
 }
@@ -113,7 +119,7 @@
     flex-direction: column;
     gap: 0.6rem;
     padding: 0 0.5rem;
-    flex-shrink: 0; /* Empêche le footer de se réduire */
+    flex-shrink: 0;
 }
 
 .footerActions{
@@ -151,4 +157,94 @@
     align-items: center;
     gap: 0.4rem;
     padding-left: 0.4rem;
+}
+
+.overlay {
+    display: none;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    /* Afficher la navbar mobile */
+    .mobileNavbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 90%;
+        margin: 1rem auto 0;
+        padding: 0.8rem 1.2rem;
+        background-color: white;
+        border-radius: 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .hamburger {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--identity-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.3rem;
+    }
+
+    /* Cacher la navbar desktop par défaut */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 270px;
+        height: 100vh;
+        background-color: var(--background-color, #f9fafb);
+        z-index: 1000;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Afficher la navbar quand le menu est ouvert */
+    .navbar.mobileOpen {
+        left: 0;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    /* Overlay pour fermer le menu */
+    .overlay {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobileNavbar {
+        width: 90%;
+        padding: 0.7rem 1rem;
+    }
+
+    .mobileNavbar .logo {
+        font-size: 30px;
+    }
+
+    .hamburger {
+        font-size: 24px;
+    }
+
+    .navbar {
+        width: 250px;
+    }
+
+    .navbar button span, .navbar a {
+        font-size: 1rem;
+    }
+
+    .footerActions a, .footerActions button {
+        font-size: 1rem;
+    }
 }

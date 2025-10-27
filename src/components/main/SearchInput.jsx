@@ -2,6 +2,7 @@
 
 import { useSearchParams, usePathname, useRouter } from "next/navigation"
 import { IoSearch } from "react-icons/io5";
+import styles from '@/css-modules/main/users.module.css'
 
 
 
@@ -29,7 +30,7 @@ export default function SearchInput() {
 
     return (
 
-        <div>
+        <div className={styles.searchInputContainer}>
             <input onChange={(e)=>handleSearch(e.target.value)} type="text" placeholder="Enter an email, first or last name.." />
             <IoSearch />
         </div>

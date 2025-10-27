@@ -4,8 +4,16 @@
     background-color: var(--bg-gradient-start);
     box-sizing: border-box;
     padding: 1.7rem;
+    gap: 1.5rem;
+}
+
+.mainLayout main{
+    flex: 1;
 }
 
 
-
-
+@media (max-width: 768px) {
+    .mainLayout{
+        flex-direction: column;
+    }
+}
