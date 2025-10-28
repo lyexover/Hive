@@ -9,6 +9,14 @@
 
 .mainLayout main{
     flex: 1;
+    max-height: 100vh;
+    display: flex; /* Ajoutez ceci */
+    flex-direction: column; /* Ajoutez ceci */
+    overflow: hidden; /* Ajoutez ceci pour éviter le débordement */
+}
+
+.mainLayout main h2{
+    margin-top: 0;
 }
 
 

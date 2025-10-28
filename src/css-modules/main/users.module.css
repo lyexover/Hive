@@ -1,10 +1,21 @@
+.usersContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
 .AddUsersContainer{
     background-color: white;
     box-sizing: border-box;
-    padding: 1rem;
+    padding: 1.5rem 1rem;
     border-radius: 20px;
     width: 100%;
-    height: 40%;
+    flex: 1;
+    box-shadow: 0 2px 8px rgba(73, 134, 255, 0.15);
+
 }
 
 .searchInputContainer{
@@ -110,4 +121,37 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.Section2{
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex: 1;
+    min-height: 0;
+ }
+
+.myNetwork, .invites{
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 20px;
+    box-sizing: border-box;
+    padding: 1.5rem;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 0 2px 8px rgba(73, 134, 255, 0.15);
+}
+
+.myNetwork ul span {
+    color: gray;
+    font-size: 0.8rem;
+}
+
+
+.Section2 h4{
+    margin-top: 0;
 }
