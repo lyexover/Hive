@@ -23,7 +23,7 @@ export default async function UsersPage(props){
                 <AddUsers query={query}/>
                 <div className={styles.Section2}>
                    <MyNetwork id={user.id}/>
-                   <Invites/>
+                   <Invites id={user.id}/>
                 </div>
 
             </div>
