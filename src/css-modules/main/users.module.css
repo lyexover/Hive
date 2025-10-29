@@ -146,18 +146,62 @@
     box-shadow: 0 2px 8px rgba(73, 134, 255, 0.15);
 }
 
+.invites>span{
+    color: gray;
+    font-size: 0.8rem;
+}
+
+.myNetwork ul {
+    padding: 0; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    column-gap: 1rem;
+    
+}
+
 .myNetwork ul span {
     color: gray;
     font-size: 0.8rem;
 }
 
+.myNetwork ul li{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--identity-blue);
+    background-color: var(--input-gray);
+    padding: 0.8rem;
+    border-radius: 2rem;
+}
+
+.myNetwork ul li p{
+    padding: 0;
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.myNetwork ul li svg{
+    color: var(--identity-blue);
+}
+
+.myNetwork ul li button{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.myNetwork ul li button:hover{
+    opacity: 0.8;
+}
 
 .Section2 h4{
     margin-top: 0;
 }
 
-
-/* Styles existants... */
 
 .invites ul {
     list-style: none;
@@ -242,4 +286,168 @@
 .acceptBtn:active,
 .rejectBtn:active {
     transform: scale(0.95);
+}
+
+.errorMessage {
+  background-color: #fee;
+  color: #c33;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #fcc;
+}
+
+.successMessage {
+  background-color: #efe;
+  color: #3c3;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #cfc;
+}
+
+
+/* modal =========================================*/
+
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.2s ease;
+}
+
+/* Modal Container */
+.friendModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 450px;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(73, 134, 255, 0.25);
+    animation: slideUp 0.3s ease;
+}
+
+/* Close Button */
+.closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: transparent;
+    border: none;
+    color: var(--dark-gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+    background-color: var(--input-gray);
+    color: var(--identity-blue);
+}
+
+.closeBtn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Modal Header */
+.modalHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--input-gray);
+}
+
+.avatarCircle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--identity-blue), #5a8fff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.modalHeader h4 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: black;
+}
+
+/* Modal Body */
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.infoRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.infoLabel {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--dark-gray);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.infoLabel svg {
+    color: var(--identity-blue);
+}
+
+.infoRow p {
+    margin: 0;
+    padding: 0.8rem 1rem;
+    background-color: var(--input-gray);
+    border-radius: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: black;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }

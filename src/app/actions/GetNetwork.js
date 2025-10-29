@@ -9,7 +9,7 @@ export async function GetNetwork(id){
 
  try {
     const network = await sql`
-    SELECT u.*
+    SELECT u.id, u.email, u.first_name, u.last_name
     FROM users u
     JOIN friends f
       ON u.id = CASE 

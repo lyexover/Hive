@@ -9,7 +9,8 @@ export default async function GetInvites(id){
 
    try {
        const res= await sql`
-          SELECT * FROM 
+          SELECT fr.id, fr.sender_id, fr.receiver_id, fr.status, u.first_name, u.last_name
+          FROM 
           friend_requests fr JOIN users u on fr.sender_id = u.id
           WHERE fr.receiver_id = ${id} AND fr.status = 'pending';
        `

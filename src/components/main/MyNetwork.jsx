@@ -4,11 +4,13 @@ import { FaUser } from "react-icons/fa";
 import { IoInformationCircle } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import styles from '@/css-modules/main/users.module.css'
+import FriendModal from "./FriendModal";
 
 
 export default function MyNetwork({id}){
 
       const [network, setNetwork] = useState([])
+      const [selectedUser, setSelectedUser] = useState(null)
 
      useEffect(() => {
 
@@ -36,10 +38,10 @@ export default function MyNetwork({id}){
 
                    <div className={styles.userInfo}>
                       <FaUser/> 
-                      <p>{user.first_name} {user.last_name}</p>
+                      <p>{n.first_name} {n.last_name}</p>
                    </div>
                   
-                  <button >
+                  <button onClick={()=>setSelectedUser(n)} >
                       <IoInformationCircle/>
                   </button>
                </li>
@@ -47,6 +49,13 @@ export default function MyNetwork({id}){
             
         }
           </ul>
+               
+               {
+                  selectedUser && (
+                     <FriendModal user={selectedUser} onClose={()=> setSelectedUser(null)}/>
+                  )
+               }
+
         </div>
     )
 }
