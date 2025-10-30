@@ -1,0 +1,63 @@
+const { createServer } = require('http');
+const { parse } = require('url');                    //helps parse incoming requests
+const next = require('next');
+const { Server } = require('socket.io');
+
+const dev = process.env.NODE_ENV !== 'production';
+const hostname = 'localhost';
+const port = 3000;
+
+const app = next({ dev, hostname, port });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  // 1️⃣ Create HTTP server
+  const httpServer = createServer(async (req, res) => {
+    try {
+      const parsedUrl = parse(req.url, true);
+      await handle(req, res, parsedUrl);                     // Let Next.js handle all normal requests
+                                                             // we need to do it because we override the next js default server
+                                                             //so we kinda 'reteach' it how to handle routes, apis etc
+    } catch (err) {
+      console.error('Error occurred handling', req.url, err);
+      res.statusCode = 500;
+      res.end('internal server error');
+    }
+  });
+
+  // 2️⃣ Initialize Socket.IO server
+  const io = new Server(httpServer, {
+    cors: {
+      origin: dev ? 'http://localhost:3000' : 'https://yourdomain.com',            // to be changed
+      credentials: true,
+    },
+  });
+
+  // 3️⃣ Authentication middleware
+  io.use((socket, next) => {
+    const token = socket.handshake.auth.token;
+    if (!token) return next(new Error('Authentication error'));
+
+    try {
+      socket.userId = token.id;             // we need to add the token verification for better security
+      next();
+      
+    } catch (err) {
+      next(new Error('Authentication error'));
+    }
+  });
+
+  // 4️⃣ Handle connections
+  io.on('connection', (socket) => {
+    console.log('User connected:', socket.userId);
+
+    socket.on('disconnect', () => {
+      console.log('User disconnected:', socket.userId);
+    });
+  });
+
+  // 5️⃣ Start the server
+  httpServer.listen(port, () => {
+    console.log(`> Ready on http://${hostname}:${port}`);
+  });
+});

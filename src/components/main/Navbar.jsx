@@ -82,7 +82,7 @@ export default function Navbar({ user }) {
                                         key={room.id}
                                         className={pathname === `/rooms/${room.id}` ? styles.active : ''}
                                     >
-                                        <Link href={`/rooms/${room.id}`}>
+                                        <Link href={`/dashboard/rooms/${room.id}`}>
                                             {room.name}
                                         </Link>
                                     </li>
