@@ -26,3 +26,31 @@ export async function GetNetwork(id){
  }
 
 }
+
+
+
+
+export async function GetAvailableFriendsForRoom(userId, roomId) {
+  try {
+    const availableFriends = await sql`
+      SELECT u.id, u.email, u.first_name, u.last_name
+      FROM users u
+      JOIN friends f
+        ON u.id = CASE
+          WHEN f.friend1 = ${userId} THEN f.friend2
+          ELSE f.friend1
+        END
+      WHERE ${userId} IN (f.friend1, f.friend2)
+        AND u.id NOT IN (
+          SELECT rm.user_id
+          FROM room_members rm
+          WHERE rm.room_id = ${roomId}
+        )
+    `;
+
+    return { success: true, data: availableFriends };
+  } catch (err) {
+    console.error(err);
+    return { success: false, error: 'Database query failed' };
+  }
+}

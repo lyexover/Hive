@@ -1,0 +1,199 @@
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+
+}
+.header h2{
+    margin: 0;
+}
+.header button{
+background-color: var(--identity-blue);
+border: none;
+border-radius: 2rem;
+padding: 0.5rem 0.8rem;
+font-size: 0.95rem;
+display: flex;
+align-items: center;
+gap: 0.35rem;
+color: white;
+font-weight: 550;
+cursor: pointer;
+transition: 0.2s ease;
+}
+
+.header button:hover{
+    
+    box-shadow: 0 0 5px 2px rgba(56, 86, 234, 0.284);
+}
+
+
+
+
+/*modal ==========================================*/
+/* Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    animation: fadeIn 0.2s ease;
+}
+
+.modalBody span{
+    color: gray; 
+    font-size: 0.8;
+    margin-top: 0.5rem;
+}
+
+/* Modal Container */
+.addUserModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 450px;
+    z-index: 1000;
+    box-shadow: 0 10px 40px rgba(73, 134, 255, 0.25);
+    animation: slideUp 0.3s ease;
+}
+
+/* Close Button */
+.closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: transparent;
+    border: none;
+    color: var(--dark-gray);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+    background-color: var(--input-gray);
+    color: var(--identity-blue);
+}
+
+/* Title */
+.modalTitle {
+    text-align: center;
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 1.5rem;
+}
+
+/* Body */
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Message */
+.errorMessage {
+    color: red;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.noFriends {
+    text-align: center;
+    color: var(--dark-gray);
+    font-size: 0.9rem;
+}
+
+/* Friend List */
+.friendList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+/* Friend Item */
+.friendItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--input-gray);
+    border-radius: 0.8rem;
+    padding: 0.8rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.friendItem:hover {
+    background-color: #e6ebff;
+}
+
+.friendItem span{
+    color: black;
+    font-weight: 550;
+    margin: 0;
+}
+
+/* Friend Info (icon + name) */
+.friendInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 500;
+    color: black;
+}
+
+.friendInfo svg {
+    color: var(--identity-blue);
+}
+
+/* Add Button */
+.addBtn {
+    background-color: var(--identity-blue);
+    border: none;
+    border-radius: 10px;
+    padding: 0.5rem 0.7rem;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.addBtn:hover {
+    background-color: #5a8fff;
+    transform: scale(1.05);
+}
+
+/* Animations (same as FriendModal) */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
