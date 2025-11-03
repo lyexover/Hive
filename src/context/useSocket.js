@@ -26,7 +26,18 @@ export function ContextProvider({children, userID}){
                 console.log('user connected')
             })
 
-         })
+
+
+            return ()=> {                  // cleanup function when component unmounts
+                if(socketRef.current)
+                {
+                  socketRef.current.disconnect()
+                  socketRef.current = null
+                }
+                    
+            }
+
+         }, [userID])
 
 
 
@@ -40,7 +51,6 @@ export function ContextProvider({children, userID}){
             </SocketContext.Provider>
 
          )
-
 }
 
 

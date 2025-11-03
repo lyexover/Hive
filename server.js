@@ -1,7 +1,13 @@
+require('dotenv').config({ path: '.env.local' }); // to load environment variables (important to connect to db)
+                                                  // next js normally automatically imports the env variables, but in this custom 
+                                                  // server we have to teach him everything manually
+
+
 const { createServer } = require('http');
 const { parse } = require('url');                    //helps parse incoming requests
 const next = require('next');
 const { Server } = require('socket.io');
+const {fetchUserRooms} = require('./src/lib/db/rooms')
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -48,8 +54,21 @@ app.prepare().then(() => {
   });
 
   // 4️⃣ Handle connections
-  io.on('connection', (socket) => {
+  io.on('connection', async (socket) => {
     console.log('User connected:', socket.userId);
+
+    try{
+      const userRooms = await (fetchUserRooms(socket.userId))
+      userRooms.forEach((room)=> {
+        socket.join(room.id)
+        console.log(`user ${socket.userId} joined room ${room.id}`)
+      })
+    }
+    catch(err){
+      console.error('error joining rooms')
+    }
+
+
 
     socket.on('disconnect', () => {
       console.log('User disconnected:', socket.userId);
