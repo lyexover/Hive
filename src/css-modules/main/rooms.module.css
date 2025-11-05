@@ -29,6 +29,120 @@ transition: 0.2s ease;
 }
 
 
+.roomContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.roomContainer h4{
+    margin: 0;
+}
+
+.notesContainer{
+    background-color: white;
+    box-sizing: border-box;
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+    width: 100%;
+    flex: 0.8;
+    box-shadow: 0 2px 8px rgba(73, 134, 255, 0.15);
+     display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.notesContainer .head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color : var(--identity-blue); 
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+    flex-shrink: 0; /* Empêche le header de rétrécir */
+}
+
+.notesContainer .head button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.notesContainer .head button:hover{
+    opacity: 0.8;
+}
+
+.notesContainer .head button svg {
+    color: var(--identity-blue);
+}
+
+.notesList{
+    flex : 1;
+    height: 100%;
+    box-sizing: border-box;
+    min-height: 0; /* ⬅️ IMPORTANT pour le overflow */
+}
+
+.notesList ul{
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    list-style: none;
+    height: 100%;
+    gap: 1rem;
+    padding: 0 0.5rem;
+}
+
+.notesList ul li{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 180px;
+    height: 170px;
+    background-color: var(--identity-blue);
+    box-sizing: border-box;
+    padding: 1rem;
+    border-radius: 1rem;
+    flex-shrink: 0;
+}
+
+.notesList ul li p {
+    font-weight: 600;
+    font-size: 0.85rem;
+    overflow-y: auto;
+    margin: 10px 0 5px;
+}
+
+.notesList ul li p::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
+}
+
+.notesList ul li span {
+    font-size: 0.65rem;
+    color: white;
+    align-self: flex-start;
+    padding-top: 0.85rem;
+}
+
+.notesList ul li svg{
+align-self: flex-end;
+color: white;
+
+}
+
+.tasksContainer{
+    background-color: white;
+    box-sizing: border-box;
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+    width: 100%;
+    flex: 1;
+    box-shadow: 0 2px 8px rgba(73, 134, 255, 0.15);
+}
 
 
 /*modal ==========================================*/
@@ -197,3 +311,6 @@ transition: 0.2s ease;
         transform: translate(-50%, -50%);
     }
 }
+
+
+

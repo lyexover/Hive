@@ -16,6 +16,27 @@ export async function fetchUserRooms(userId) {
         return rooms;
     } catch (err) {
         console.error('Error fetching rooms:', err);
-        throw err;
+        
     }
+}
+
+
+export async function fetchNotes(roomID){
+
+    try {
+        const notes = await sql `
+           SELECT u.first_name, u.last_name, u.id as author_id, n.* FROM
+           notes n JOIN users u on n.user_id = u.id
+           WHERE n.room_id = ${roomID}
+        `
+
+
+        return Array.from(notes)
+    }
+
+    catch(err){
+        console.error('error fetching notes', err)
+        return []
+    }
+
 }
