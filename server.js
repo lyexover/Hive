@@ -8,6 +8,8 @@ const { parse } = require('url');                    //helps parse incoming requ
 const next = require('next');
 const { Server } = require('socket.io');
 const {fetchUserRooms} = require('./src/lib/db/rooms')
+import postgres from 'postgres';
+const sql = postgres(process.env.POSTGRES_URL, { ssl: 'require' });
 
 const dev = process.env.NODE_ENV !== 'production';
 const hostname = 'localhost';
@@ -67,6 +69,65 @@ app.prepare().then(() => {
     catch(err){
       console.error('error joining rooms')
     }
+
+
+    socket.on('addNote', async(data) => {                      //add note handler
+
+        try {
+          const { content, userID, roomID } = data
+            
+            // Validate data
+            if (!content || !userID || !roomID) {
+                socket.emit('noteAdded', {
+                    success: false,
+                    message: 'Missing required fields'
+                })
+                return
+            }
+
+
+            //inserting note into database
+            const res = await sql`
+            INSERT INTO notes(content, room_id, user_id) 
+            VALUES (${content}, ${roomID}, ${userID})            
+            RETURNING 
+                notes.*,
+                (SELECT first_name FROM users WHERE id = ${userID}) as first_name,
+                (SELECT last_name FROM users WHERE id = ${userID}) as last_name,
+                ${userID} as author_id  `
+
+            // the returning is to return something after the insert query
+
+              const newNote = res[0]
+            
+
+
+            // we emit to the room, it expects a string 
+            io.to(String(roomID)).emit('newNote', {
+                id: newNote.id,
+                content: newNote.content,
+                room_id: newNote.room_id,
+                user_id: newNote.user_id,
+                author_id: newNote.author_id,
+                first_name: newNote.first_name,
+                last_name: newNote.last_name,
+            })
+
+            socket.emit('noteAdded', {
+              success : true, 
+              message : 'Note added successfully'
+            })
+        }
+
+
+        catch(err){
+          console.error('Error adding note:', err)
+          socket.emit('noteAdded', {
+            success: false,
+            message: 'Failed to add note. Please try again.'
+        })
+        }
+    })
 
 
 

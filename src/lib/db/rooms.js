@@ -28,7 +28,9 @@ export async function fetchNotes(roomID){
            SELECT u.first_name, u.last_name, u.id as author_id, n.* FROM
            notes n JOIN users u on n.user_id = u.id
            WHERE n.room_id = ${roomID}
-        `
+           `
+
+           console.log('debug===============')
 
 
         return Array.from(notes)

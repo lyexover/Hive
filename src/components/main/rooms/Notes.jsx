@@ -6,6 +6,7 @@ import { FcParallelTasks } from "react-icons/fc";
 import { RiStickyNoteAddLine } from "react-icons/ri";
 import { useState, useEffect } from 'react';
 import { HiOutlineDotsVertical } from "react-icons/hi";
+import AddNote from './AddNote';
 
 
 export default function Notes({initialNotes, roomID, userID}){
@@ -18,6 +19,9 @@ export default function Notes({initialNotes, roomID, userID}){
 
     return (
 
+
+        <>
+        
         <div className={styles.notesContainer}>
             <div className={styles.head}>
                <h4><GiPapers size={21}/> Sticky Notes</h4>
@@ -42,6 +46,14 @@ export default function Notes({initialNotes, roomID, userID}){
             </div>
             
         </div>
+
+
+        {
+            isOpen && <AddNote userID={userID} roomID={roomID} onClose={()=>setIsOpen(false)} />
+        }
+
+
+        </>
             
     )
 }
