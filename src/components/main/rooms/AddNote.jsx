@@ -1,15 +1,49 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSocket } from "@/context/useSocket"
 import styles from '@/css-modules/main/rooms.module.css'
 import { IoMdClose } from 'react-icons/io'
 
-export default function AddNote({ userID, roomID, onClose }) {
+export default function AddNote({ userID, roomID, onClose, setNotes }) {
 
     const { socket } = useSocket()
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [message, setMessage] = useState(null)
+
+    // ✅ Setup listener for noteAdded (confirmation for creator)
+    useEffect(() => {
+        if (!socket) return
+
+        // For the creator only (personal confirmation + immediate UI update)
+        const handleNoteAdded = (response) => {
+            setIsSubmitting(false)
+            
+            if (response.success) {
+                setMessage({ success: true, text: response.message || 'Note added successfully!' })
+                
+                // ⭐️ CHANGE: Add the note immediately using the prop from the parent
+                // (This is the exclusive update path for the creator)
+                if (response.note) {
+                    setNotes((prev) => [response.note, ...prev])
+                }
+                
+                // Close modal after showing success message
+                setTimeout(() => {
+                    onClose()
+                }, 1500)
+            } else {
+                setMessage({ success: false, text: response.message || 'Failed to add note.' })
+            }
+        }
+
+        socket.on('noteAdded', handleNoteAdded)
+
+        // ✅ Cleanup on unmount
+        return () => {
+            socket.off('noteAdded', handleNoteAdded)
+        }
+    }, [socket, onClose, setNotes])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -30,31 +64,17 @@ export default function AddNote({ userID, roomID, onClose }) {
         setIsSubmitting(true)
         setMessage(null)
 
-        // Emit to socket.io server
+        // ✅ Emit addNote event
         socket.emit('addNote', {
             content: content.trim(),
             userID,
             roomID
         })
 
-        // Listen for response
-        socket.once('noteAdded', (response) => {
-            setIsSubmitting(false)
-            
-            if (response.success) {
-                setMessage({ success: true, text: response.message || 'Note added successfully!' })
-                e.target.reset()
-                
-                // Close modal after 1.5 seconds
-                setTimeout(() => {
-                    onClose()
-                }, 1500)
-            } else {
-                setMessage({ success: false, text: response.message || 'Failed to add note.' })
-            }
-        })
+        // Reset form
+        e.target.reset()
 
-        // Timeout fallback
+        // Timeout fallback in case server doesn't respond
         setTimeout(() => {
             if (isSubmitting) {
                 setIsSubmitting(false)

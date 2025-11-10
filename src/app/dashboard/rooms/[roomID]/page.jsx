@@ -12,6 +12,7 @@ export default async function roomPage({params}){
     const {roomID} = await params
     const {user}= await auth()
 
+
     const notes = await fetchNotes(roomID)
     
 
@@ -19,7 +20,7 @@ export default async function roomPage({params}){
 
         <div className={styles.roomContainer}>
           <Header roomID={roomID} userID={user.id} />
-          <Notes initialNotes={notes} roomID={roomID} userID={user.id} />
+          <Notes initialNotes={notes.reverse()} roomID={roomID} userID={user.id} />
           <Tasks/>
         </div>
 

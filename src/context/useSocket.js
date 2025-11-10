@@ -1,60 +1,62 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, useRef } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import { io } from "socket.io-client";
 
 const SocketContext = createContext(null)
 
 export function ContextProvider({children, userID}){
 
-        const socketRef = useRef(null)      //we create a reference in order to not trigger a re render in case of update
+    const [socket, setSocket] = useState(null)  // ✅ Use state instead of ref
+    const [isConnected, setIsConnected] = useState(false)  // ✅ Track connection status
 
-         useEffect(()=> {
-            if(!userID){
-                console.log('waiting for authentication...')
-                return
-            }
+    useEffect(() => {
+        if(!userID){
+            console.log('waiting for authentication...')
+            return
+        }
 
-            socketRef.current = io('http://localhost:3000', {
-                auth : {token : {id :userID}}, 
-                 autoConnect: true,
-            })
+        const newSocket = io('http://localhost:3000', {
+            auth: { token: { id: userID } }, 
+            autoConnect: true,
+        })
 
-            const socket = socketRef.current
+        newSocket.on('connect', () => {
+            console.log('user connected')
+            setIsConnected(true)  // ✅ Update connection state
+        })
 
-            socket.on('connect', ()=> {
-                console.log('user connected')
-            })
+        newSocket.on('disconnect', () => {
+            console.log('user disconnected')
+            setIsConnected(false)  // ✅ Track disconnection
+        })
 
+        setSocket(newSocket)  // ✅ Set socket in state
 
+        return () => {
+            newSocket.disconnect()
+            setSocket(null)
+            setIsConnected(false)
+        }
 
-            return ()=> {                  // cleanup function when component unmounts
-                if(socketRef.current)
-                {
-                  socketRef.current.disconnect()
-                  socketRef.current = null
-                }
-                    
-            }
+    }, [userID])
 
-         }, [userID])
+    const value = {
+        socket,
+        isConnected  // ✅ Expose connection status
+    }
 
-
-
-         const value = {
-             socket : socketRef.current
-         }
-    
-         return (
-            <SocketContext.Provider value={value} > 
-                  {children}
-            </SocketContext.Provider>
-
-         )
+    return (
+        <SocketContext.Provider value={value}> 
+            {children}
+        </SocketContext.Provider>
+    )
 }
 
-
-export const useSocket = ()=> {
+export const useSocket = () => {
     const context = useContext(SocketContext)
+    if (!context) {
+        throw new Error('useSocket must be used within a SocketProvider')
+    }
     return context
 }

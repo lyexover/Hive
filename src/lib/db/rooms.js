@@ -30,7 +30,6 @@ export async function fetchNotes(roomID){
            WHERE n.room_id = ${roomID}
            `
 
-           console.log('debug===============')
 
 
         return Array.from(notes)

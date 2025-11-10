@@ -80,9 +80,9 @@ export default function Navbar({ user }) {
                                 {rooms.map((room) => (
                                     <li 
                                         key={room.id}
-                                        className={pathname === `/rooms/${room.id}` ? styles.active : ''}
+                                        className={pathname === `dashboard/rooms/${room.room_id}` ? styles.active : ''}
                                     >
-                                        <Link href={`/dashboard/rooms/${room.id}`}>
+                                        <Link href={`/dashboard/rooms/${room.room_id}`}>
                                             {room.name}
                                         </Link>
                                     </li>

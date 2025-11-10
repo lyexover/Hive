@@ -1,7 +1,7 @@
 .mainLayout{
     display: flex;
     min-height: 100vh;
-    background-color: var(--bg-gradient-start);
+    background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end)); 
     box-sizing: border-box;
     padding: 1.7rem;
     gap: 1.5rem;

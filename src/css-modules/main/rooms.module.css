@@ -7,9 +7,13 @@
 }
 .header h2{
     margin: 0;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 .header button{
-background-color: var(--identity-blue);
+background-color:black;
 border: none;
 border-radius: 2rem;
 padding: 0.5rem 0.8rem;
@@ -25,7 +29,7 @@ transition: 0.2s ease;
 
 .header button:hover{
     
-    box-shadow: 0 0 5px 2px rgba(56, 86, 234, 0.284);
+    box-shadow: 0 0 5px 2px rgba(17, 17, 17, 0.284);
 }
 
 
@@ -58,10 +62,16 @@ transition: 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color : var(--identity-blue); 
     box-sizing: border-box;
     padding: 0 0.5rem;
     flex-shrink: 0; /* Empêche le header de rétrécir */
+}
+
+.notesContainer .head h4{
+    color: var(--identity-blue);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
 .notesContainer .head button {
@@ -88,7 +98,6 @@ transition: 0.2s ease;
 
 .notesList ul{
     display: flex;
-    align-items: center;
     overflow-x: auto;
     flex-wrap: nowrap;
     list-style: none;
@@ -103,18 +112,51 @@ transition: 0.2s ease;
     flex-direction: column;
     width: 180px;
     height: 170px;
-    background-color: var(--identity-blue);
     box-sizing: border-box;
     padding: 1rem;
     border-radius: 1rem;
     flex-shrink: 0;
     position: relative;
+    box-shadow:  0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* colors of different cards =============*/
+/* Color variants for sticky notes */
+.notesList ul li.card-color-0 {
+    background-color: #FEF3C7; /* soft yellow */
+    border-left: 4px solid #F59E0B;
+}
+
+.notesList ul li.card-color-1 {
+    background-color: #DBEAFE; /* soft blue */
+    border-left: 4px solid #3B82F6;
+}
+
+.notesList ul li.card-color-2 {
+    background-color: #D1FAE5; /* soft green */
+    border-left: 4px solid #10B981;
+}
+
+.notesList ul li.card-color-3 {
+    background-color: #E0E7FF; /* soft indigo */
+    border-left: 4px solid #6366F1;
+}
+
+.notesList ul li.card-color-4 {
+    background-color: #FCE7F3; /* soft pink */
+    border-left: 4px solid #EC4899;
+}
+
+.notesList ul li.card-color-5 {
+    background-color: #F3E8FF; /* soft purple */
+    border-left: 4px solid #8B5CF6;
 }
 
 .notesList ul li p {
     font-weight: 600;
     font-size: 0.85rem;
     overflow-y: auto;
+    color: #1F2937;
     margin: 10px 0 5px;
 }
 
@@ -124,7 +166,7 @@ transition: 0.2s ease;
 
 .notesList ul li span {
     font-size: 0.65rem;
-    color: white;
+    color: #6B7280;
     align-self: flex-start;
     position: absolute;
     bottom: 0.7rem;
@@ -132,8 +174,34 @@ transition: 0.2s ease;
 
 .notesList ul li svg{
 align-self: flex-end;
-color: white;
+color: #6B7280;
 
+}
+
+/* scrollbar styling  =================*/
+/* Scrollbar styling for sticky notes */
+.notesList ul::-webkit-scrollbar {
+  height: 8px;
+}
+
+.notesList ul::-webkit-scrollbar-track {
+  background: #E5E7EB;
+  border-radius: 4px;
+  margin: 0 0.5rem; /* Adds space on left/right edges */
+}
+
+.notesList ul::-webkit-scrollbar-thumb {
+  background: #9CA3AF;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.notesList ul::-webkit-scrollbar-thumb:hover {
+  background: #6B7280;
+}
+
+.notesList ul::-webkit-scrollbar-thumb:active {
+  background: #6366F1;
 }
 
 .tasksContainer{

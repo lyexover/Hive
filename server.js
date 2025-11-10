@@ -1,14 +1,11 @@
-require('dotenv').config({ path: '.env.local' }); // to load environment variables (important to connect to db)
-                                                  // next js normally automatically imports the env variables, but in this custom 
-                                                  // server we have to teach him everything manually
-
-
+require('dotenv').config({ path: '.env.local' }); 
+                                                  
 const { createServer } = require('http');
-const { parse } = require('url');                    //helps parse incoming requests
+const { parse } = require('url');                   
 const next = require('next');
 const { Server } = require('socket.io');
 const {fetchUserRooms} = require('./src/lib/db/rooms')
-import postgres from 'postgres';
+const postgres = require('postgres')
 const sql = postgres(process.env.POSTGRES_URL, { ssl: 'require' });
 
 const dev = process.env.NODE_ENV !== 'production';
@@ -23,9 +20,7 @@ app.prepare().then(() => {
   const httpServer = createServer(async (req, res) => {
     try {
       const parsedUrl = parse(req.url, true);
-      await handle(req, res, parsedUrl);                     // Let Next.js handle all normal requests
-                                                             // we need to do it because we override the next js default server
-                                                             //so we kinda 'reteach' it how to handle routes, apis etc
+      await handle(req, res, parsedUrl);                    
     } catch (err) {
       console.error('Error occurred handling', req.url, err);
       res.statusCode = 500;
@@ -36,7 +31,7 @@ app.prepare().then(() => {
   // 2️⃣ Initialize Socket.IO server
   const io = new Server(httpServer, {
     cors: {
-      origin: dev ? 'http://localhost:3000' : 'https://yourdomain.com',            // to be changed
+      origin: dev ? 'http://localhost:3000' : 'https://yourdomain.com',           
       credentials: true,
     },
   });
@@ -47,7 +42,7 @@ app.prepare().then(() => {
     if (!token) return next(new Error('Authentication error'));
 
     try {
-      socket.userId = token.id;             // we need to add the token verification for better security
+      socket.userId = token.id;             
       next();
       
     } catch (err) {
@@ -62,7 +57,7 @@ app.prepare().then(() => {
     try{
       const userRooms = await (fetchUserRooms(socket.userId))
       userRooms.forEach((room)=> {
-        socket.join(room.id)
+        socket.join(String(room.id))
         console.log(`user ${socket.userId} joined room ${room.id}`)
       })
     }
@@ -96,14 +91,9 @@ app.prepare().then(() => {
                 (SELECT last_name FROM users WHERE id = ${userID}) as last_name,
                 ${userID} as author_id  `
 
-            // the returning is to return something after the insert query
-
-              const newNote = res[0]
+            const newNote = res[0]
             
-
-
-            // we emit to the room, it expects a string 
-            io.to(String(roomID)).emit('newNote', {
+            const noteData = {
                 id: newNote.id,
                 content: newNote.content,
                 room_id: newNote.room_id,
@@ -111,12 +101,17 @@ app.prepare().then(() => {
                 author_id: newNote.author_id,
                 first_name: newNote.first_name,
                 last_name: newNote.last_name,
+            }
+
+            // ✅ 1. Personal confirmation to creator (includes note data for immediate UI update)
+            socket.emit('noteAdded', {
+              success: true, 
+              message: 'Note added successfully',
+              note: noteData  // Include the note so creator can add it immediately
             })
 
-            socket.emit('noteAdded', {
-              success : true, 
-              message : 'Note added successfully'
-            })
+            // ⭐️ 2. Broadcast to rest of the room (excluding the sender)
+            socket.broadcast.to(String(roomID)).emit('newNote', noteData)
         }
 
 
